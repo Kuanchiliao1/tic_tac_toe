@@ -1,5 +1,32 @@
 const Gameboard = (function () {
-  return ['', '', '', '', '', '', '', '', ''];
+  const board = new Array(9);
+
+  const isGameOver = () => {
+    const winningLines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 6],
+      [2, 5, 8],
+      [0, 4, 8],
+      [6, 4, 2],
+    ];
+
+    const isThereWinner = winningLines.some(array => {
+      const [firstCell, secondCell, thirdCell] = array
+      return (firstCell === secondCell) && (secondCell === thirdCell)
+    })
+
+    const isBoardFull = board.filter(typeof cell === "string") === 0
+  };
+
+  const getWinnerMarker = () => {
+
+  }
+  const isGameOver = () => {}
+
+  return board;
 })();
 
 const PlayerFactory = (name, marker) => {
@@ -14,7 +41,6 @@ const PlayerFactory = (name, marker) => {
     } else {
       alert('pick something else!');
     }
-    console.log(cellId);
     DisplayController.renderGameboard();
   };
 
