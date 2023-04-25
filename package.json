@@ -1,0 +1,26 @@
+{
+  "name": "tic_tac_toe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "eslintConfig": {
+    "extends": ["wesbos"]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kuanchiliao1/tic_tac_toe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kuanchiliao1/tic_tac_toe/issues"
+  },
+  "homepage": "https://github.com/Kuanchiliao1/tic_tac_toe#readme",
+  "dependencies": {
+    "eslint-config-wesbos": "^3.2.3"
+  }
+}
