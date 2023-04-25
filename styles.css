@@ -1,0 +1,20 @@
+html {box-sizing: border-box;}
+
+*, *::before, *::after {box-sizing: inherit;}
+
+.gameboard {
+  display: grid;
+  grid-template: 
+  1fr
+  1fr
+  1fr
+  / 1fr 1fr 1fr;
+  border: solid pink 5px;
+  width: 40%;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.gameboard__cell {
+  border: solid purple 5px;
+}
