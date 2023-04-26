@@ -73,6 +73,20 @@ const DisplayController = (function () {
         playerTwo.markSpot(cellEl, playerOne);
       }
     });
+
+    formEl.addEventListener('submit', (event) => {
+      const formData = new FormData(formEl);
+      event.preventDefault();
+      formEl.style.display = 'none';
+      playerMarkerEl.textContent = `${formData.get(
+        'player-one'
+      )} is "X" || ${formData.get('player-two')} is "O"`;
+    });
+
+    restartBtnEl.addEventListener('click', (event) => {
+      formEl.style.display = 'flex';
+      clearGameboard();
+    });
   };
 
   const renderGameboard = () => {
