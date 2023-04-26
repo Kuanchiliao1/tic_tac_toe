@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +7,23 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="gameboard" class="gameboard">
+  <div class="gameboard-container">
+    <div id="gameboard" class="gameboard">
+    </div>
+    <p>Player One is "X" || Player Two is "O"</p>
   </div>
+  <form class="name-input" id="name-input" action="GET">
+    <div>
+      <label for="player-one">Player One:</label>
+      <input type="text" name="player-one" id="player-one" placeholder="Enter your name">
+    </div>
+    
+    <div>
+      <label for="player-two">Player Two:</label>
+      <input type="text" name="player-two" id="player-two" placeholder="Enter your name">
+    </div>
+    <button id="name-input-btn">Submit</button>
+  </form>
+  <button id="restart-btn">Restart</button>
 </body>
 </html>
