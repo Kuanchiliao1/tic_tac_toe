@@ -1,47 +1,56 @@
 const Gameboard = (function () {
   const board = new Array(9);
 
-  const isGameOver = () => {
+  const markerCount = () => board.filter((cell) => typeof cell === 'string');
+
+  const getWinningMarker = () => {
     const winningLines = [
       [0, 1, 2],
       [3, 4, 5],
       [6, 7, 8],
       [0, 3, 6],
-      [1, 4, 6],
+      [1, 4, 7],
       [2, 5, 8],
       [0, 4, 8],
       [6, 4, 2],
     ];
+    let winningMarker = '';
 
-    const isThereWinner = winningLines.some(array => {
-      const [firstCell, secondCell, thirdCell] = array
-      return (firstCell === secondCell) && (secondCell === thirdCell)
-    })
+    winningLines.forEach((array) => {
+      const [firstCell, secondCell, thirdCell] = array;
+      if (
+        board[firstCell] === board[secondCell] &&
+        board[secondCell] === board[thirdCell]
+      ) {
+        winningMarker = board[firstCell];
+      }
+    });
 
-    const isBoardFull = board.filter(typeof cell === "string") === 0
+    return winningMarker;
   };
 
-  const getWinnerMarker = () => {
-
-  }
-  const isGameOver = () => {}
-
-  return board;
+  return { board, getWinningMarker, markerCount };
 })();
 
 const PlayerFactory = (name, marker) => {
   const markSpot = function (gridElement, otherPlayer) {
     const cellId = gridElement.id;
-    const isCellEmpty = !Gameboard[cellId];
+    const isCellEmpty = !Gameboard.board[cellId];
 
     if (isCellEmpty) {
-      Gameboard[cellId] = marker;
+      Gameboard.board[cellId] = marker;
       this.isCurrentPlayer = false;
       otherPlayer.isCurrentPlayer = true;
     } else {
       alert('pick something else!');
     }
     DisplayController.renderGameboard();
+    const winningMarker = Gameboard.getWinningMarker();
+    if (winningMarker) {
+      alert(`game is over! ${winningMarker} has won`);
+      Object.freeze(Gameboard.board)
+    }
+    console.log(winningMarker);
   };
 
   const isCurrentPlayer = false;
@@ -57,6 +66,7 @@ const DisplayController = (function () {
   const addEventListeners = () => {
     gameboardEl.addEventListener('click', (event) => {
       const cellEl = event.target;
+
       if (playerOne.isCurrentPlayer) {
         playerOne.markSpot(cellEl, playerTwo);
       } else {
@@ -68,11 +78,11 @@ const DisplayController = (function () {
   const renderGameboard = () => {
     gameboardEl.innerHTML = '';
 
-    for (let i = 0; i < Gameboard.length; i++) {
+    for (let i = 0; i < Gameboard.board.length; i++) {
       const cellEl = document.createElement('div');
       cellEl.classList.add('gameboard__cell');
       cellEl.id = i;
-      cellEl.textContent = Gameboard[i];
+      cellEl.textContent = Gameboard.board[i];
       gameboardEl.append(cellEl);
     }
   };
