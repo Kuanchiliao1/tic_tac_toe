@@ -87,6 +87,11 @@ const DisplayController = (function () {
     }
   };
 
+  const clearGameboard = () => {
+    Gameboard.resetBoard();
+    renderGameboard();
+  };
+
   return { renderGameboard, addEventListeners };
 })();
 
