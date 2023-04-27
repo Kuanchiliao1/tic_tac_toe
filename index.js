@@ -1,3 +1,8 @@
+const restartBtnEl = document.getElementById('restart-btn');
+const nameInputBtnEl = document.getElementById('name-input-btn');
+const formEl = document.getElementById('name-input');
+const playerMarkerEl = document.getElementById('player-marker-display');
+
 const Gameboard = (function () {
   const board = new Array(9);
 
