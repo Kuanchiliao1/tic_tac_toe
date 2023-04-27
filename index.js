@@ -29,7 +29,26 @@ const Gameboard = (function () {
     return winningMarker;
   };
 
-  return { board, getWinningMarker, markerCount };
+  const isCatsGame = function () {
+    return markerCount.call(this) === this.board.length && !getWinningMarker.call(this);
+  };
+
+  const freeze = function () {
+    Object.freeze(this.board);
+  };
+
+  const resetBoard = function () {
+    this.board = new Array(9);
+  };
+
+  return {
+    board,
+    getWinningMarker,
+    markerCount,
+    isCatsGame,
+    freeze,
+    resetBoard,
+  };
 })();
 
 const PlayerFactory = (name, marker) => {
