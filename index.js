@@ -86,8 +86,8 @@ const PlayerFactory = (name, marker) => {
 };
 
 const DisplayController = (function () {
-  const playerOne = PlayerFactory('Tony', 'O');
-  const playerTwo = PlayerFactory('Sam', 'X');
+  const playerOne = PlayerFactory('O', 'O');
+  const playerTwo = PlayerFactory('X', 'X');
 
   const addEventListeners = () => {
     gameboardEl.addEventListener('click', (event) => {
@@ -99,38 +99,40 @@ const DisplayController = (function () {
         playerTwo.markSpot(cellId, playerOne);
       }
 
-      // if cell empty => 
-        // else => alert that cell is full
 
       const winningMarker = Gameboard.getWinningMarker();
       if (winningMarker) {
         Gameboard.freeze();
-        DisplayController.renderGameboard();
-        alert(`Game is over! ${"Default player"} has won`);
-      }
-
-      if (Gameboard.isCatsGame()) {
+        alert(`Game is over! ${'Default player'} has won`);
+      } else if (Gameboard.isCatsGame()) {
         alert('cats game!');
       }
+
       DisplayController.renderGameboard();
     });
 
     formEl.addEventListener('submit', (event) => {
       const formData = new FormData(formEl);
+      const playerOneName = formData.get('player-one');
+      const playerTwoName = formData.get('player-two');
+
       event.preventDefault();
       formEl.style.display = 'none';
-      playerMarkerEl.textContent = `${formData.get(
-        'player-one'
-      )} is "X" || ${formData.get('player-two')} is "O"`;
+
+      playerOne.name = playerOneName;
+      playerTwo.name = playerTwoName;
+
+      playerMarkerEl.textContent = `${playerOneName} is "X" || ${playerTwoName} is "O"`;
     });
 
-    restartBtnEl.addEventListener('click', (event) => {
+    restartBtnEl.addEventListener('click', () => {
       formEl.style.display = 'flex';
       clearGameboard();
     });
   };
 
   const renderGameboard = () => {
+    gameboardEl.disabled = false
     gameboardEl.innerHTML = '';
 
     for (let i = 0; i < Gameboard.board.length; i++) {
@@ -146,6 +148,14 @@ const DisplayController = (function () {
     Gameboard.resetBoard();
     renderGameboard();
   };
+
+  const disableGameboard = () => {
+    gameboardEl.disabled = true;
+  }
+
+  const endGame = () => {
+    gameboardEl.disabled = true;
+  }
 
   return { renderGameboard, addEventListeners };
 })();
