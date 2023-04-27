@@ -75,8 +75,6 @@ const PlayerFactory = (name, marker) => {
       Gameboard.board[id] = marker;
       this.isCurrentPlayer = false;
       otherPlayer.isCurrentPlayer = true;
-    } else {
-      alert('cell is full!');
     }
   };
 
@@ -98,7 +96,7 @@ const DisplayController = (function () {
       } else {
         playerTwo.markSpot(cellId, playerOne);
       }
-
+      DisplayController.renderGameboard();
 
       const winningMarker = Gameboard.getWinningMarker();
       if (winningMarker) {
@@ -107,8 +105,6 @@ const DisplayController = (function () {
       } else if (Gameboard.isCatsGame()) {
         alert('cats game!');
       }
-
-      DisplayController.renderGameboard();
     });
 
     formEl.addEventListener('submit', (event) => {
@@ -131,9 +127,8 @@ const DisplayController = (function () {
     });
   };
 
-  const renderGameboard = () => {
-    gameboardEl.disabled = false
-    gameboardEl.innerHTML = '';
+  const createGameboard = () => {
+    addEventListeners();
 
     for (let i = 0; i < Gameboard.board.length; i++) {
       const cellEl = document.createElement('div');
@@ -144,6 +139,13 @@ const DisplayController = (function () {
     }
   };
 
+  const renderGameboard = () => {
+    for (let i = 0; i < Gameboard.board.length; i++) {
+      const cellEl = document.getElementById(i);
+      cellEl.textContent = Gameboard.board[i];
+    }
+  };
+
   const clearGameboard = () => {
     Gameboard.resetBoard();
     renderGameboard();
@@ -151,14 +153,13 @@ const DisplayController = (function () {
 
   const disableGameboard = () => {
     gameboardEl.disabled = true;
-  }
+  };
 
   const endGame = () => {
     gameboardEl.disabled = true;
-  }
+  };
 
-  return { renderGameboard, addEventListeners };
+  return { renderGameboard, addEventListeners, createGameboard };
 })();
 
-DisplayController.addEventListeners();
-DisplayController.renderGameboard();
+DisplayController.createGameboard();
