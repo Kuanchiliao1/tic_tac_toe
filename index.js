@@ -2,6 +2,7 @@ const restartBtnEl = document.getElementById('restart-btn');
 const nameInputBtnEl = document.getElementById('name-input-btn');
 const formEl = document.getElementById('name-input');
 const playerMarkerEl = document.getElementById('player-marker-display');
+const gameboardEl = document.getElementById('gameboard');
 
 const Gameboard = (function () {
   const board = new Array(9);
@@ -42,7 +43,10 @@ const Gameboard = (function () {
   };
 
   const isCatsGame = function () {
-    return markerCount.call(this) === this.board.length && !getWinningMarker.call(this);
+    return (
+      markerCount.call(this) === this.board.length &&
+      !getWinningMarker.call(this)
+    );
   };
 
   const freeze = function () {
@@ -64,29 +68,16 @@ const Gameboard = (function () {
 })();
 
 const PlayerFactory = (name, marker) => {
-  const markSpot = function (gridElement, otherPlayer) {
-    const cellId = gridElement.id;
-    const isCellEmpty = !Gameboard.board[cellId];
+  const markSpot = function (id, otherPlayer) {
+    const isCellEmpty = !Gameboard.board[id];
 
     if (isCellEmpty) {
-      Gameboard.board[cellId] = marker;
+      Gameboard.board[id] = marker;
       this.isCurrentPlayer = false;
       otherPlayer.isCurrentPlayer = true;
     } else {
       alert('cell is full!');
     }
-
-    const winningMarker = Gameboard.getWinningMarker();
-    if (winningMarker) {
-      Gameboard.freeze();
-      DisplayController.renderGameboard();
-      alert(`game is over! ${winningMarker} has won`);
-    }
-
-    if (Gameboard.isCatsGame()) {
-      alert('cats game!');
-    }
-    DisplayController.renderGameboard();
   };
 
   const isCurrentPlayer = false;
@@ -97,17 +88,31 @@ const PlayerFactory = (name, marker) => {
 const DisplayController = (function () {
   const playerOne = PlayerFactory('Tony', 'O');
   const playerTwo = PlayerFactory('Sam', 'X');
-  const gameboardEl = document.getElementById('gameboard');
 
   const addEventListeners = () => {
     gameboardEl.addEventListener('click', (event) => {
-      const cellEl = event.target;
+      const cellId = event.target.id;
 
       if (playerOne.isCurrentPlayer) {
-        playerOne.markSpot(cellEl, playerTwo);
+        playerOne.markSpot(cellId, playerTwo);
       } else {
-        playerTwo.markSpot(cellEl, playerOne);
+        playerTwo.markSpot(cellId, playerOne);
       }
+
+      // if cell empty => 
+        // else => alert that cell is full
+
+      const winningMarker = Gameboard.getWinningMarker();
+      if (winningMarker) {
+        Gameboard.freeze();
+        DisplayController.renderGameboard();
+        alert(`Game is over! ${"Default player"} has won`);
+      }
+
+      if (Gameboard.isCatsGame()) {
+        alert('cats game!');
+      }
+      DisplayController.renderGameboard();
     });
 
     formEl.addEventListener('submit', (event) => {
