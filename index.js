@@ -6,9 +6,13 @@ const playerMarkerEl = document.getElementById('player-marker-display');
 const Gameboard = (function () {
   const board = new Array(9);
 
-  const markerCount = () => board.filter((cell) => typeof cell === 'string');
+  // Private methods
+  const markerCount = function () {
+    return this.board.filter((cell) => cell).length;
+  };
 
-  const getWinningMarker = () => {
+  // Public methods
+  const getWinningMarker = function () {
     const winningLines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -20,14 +24,17 @@ const Gameboard = (function () {
       [6, 4, 2],
     ];
     let winningMarker = '';
+    const currentBoard = this.board;
 
     winningLines.forEach((array) => {
       const [firstCell, secondCell, thirdCell] = array;
+
       if (
-        board[firstCell] === board[secondCell] &&
-        board[secondCell] === board[thirdCell]
+        currentBoard[firstCell] === currentBoard[secondCell] &&
+        currentBoard[secondCell] === currentBoard[thirdCell] &&
+        currentBoard[firstCell]
       ) {
-        winningMarker = board[firstCell];
+        winningMarker = currentBoard[firstCell];
       }
     });
 
@@ -66,15 +73,20 @@ const PlayerFactory = (name, marker) => {
       this.isCurrentPlayer = false;
       otherPlayer.isCurrentPlayer = true;
     } else {
-      alert('pick something else!');
+      alert('cell is full!');
     }
-    DisplayController.renderGameboard();
+
     const winningMarker = Gameboard.getWinningMarker();
     if (winningMarker) {
+      Gameboard.freeze();
+      DisplayController.renderGameboard();
       alert(`game is over! ${winningMarker} has won`);
-      Object.freeze(Gameboard.board)
     }
-    console.log(winningMarker);
+
+    if (Gameboard.isCatsGame()) {
+      alert('cats game!');
+    }
+    DisplayController.renderGameboard();
   };
 
   const isCurrentPlayer = false;
