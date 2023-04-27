@@ -2,6 +2,10 @@ html {box-sizing: border-box;}
 
 *, *::before, *::after {box-sizing: inherit;}
 
+body {
+  text-align: center;
+}
+
 .gameboard {
   display: grid;
   grid-template: 
@@ -13,8 +17,30 @@ html {box-sizing: border-box;}
   width: 40%;
   aspect-ratio: 1 / 1;
   margin: 0 auto;
+  background-color: lightblue;
+  cursor: not-allowed;
+}
+
+.gameboard-container {
+  
 }
 
 .gameboard__cell {
-  border: solid purple 5px;
+  font-size: 3rem;
+  border: solid pink 5px;
+  display: grid;
+  place-items: center;
+}
+
+.name-input {
+  display: flex;
+  flex-direction: column;
+  margin: 20px auto;
+  width: 40%;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+p {
+  margin-block: .3rem;
 }
