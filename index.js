@@ -1,5 +1,4 @@
 const restartBtnEl = document.getElementById('restart-btn');
-const nameInputBtnEl = document.getElementById('name-input-btn');
 const formEl = document.getElementById('name-input');
 const playerMarkerEl = document.getElementById('player-marker-display');
 const gameboardEl = document.getElementById('gameboard');
@@ -99,12 +98,14 @@ const DisplayController = (function () {
       DisplayController.renderGameboard();
 
       const winningMarker = Gameboard.getWinningMarker();
-      if (winningMarker) {
-        Gameboard.freeze();
-        alert(`Game is over! ${'Default player'} has won`);
-      } else if (Gameboard.isCatsGame()) {
-        alert('cats game!');
-      }
+      setTimeout(() => {
+        if (winningMarker) {
+          Gameboard.freeze();
+          alert(`Game is over! ${'Default player'} has won`);
+        } else if (Gameboard.isCatsGame()) {
+          alert('cats game!');
+        }
+      }, 100)
     });
 
     formEl.addEventListener('submit', (event) => {
@@ -143,20 +144,17 @@ const DisplayController = (function () {
     for (let i = 0; i < Gameboard.board.length; i++) {
       const cellEl = document.getElementById(i);
       cellEl.textContent = Gameboard.board[i];
+      console.log(cellEl.textContent)
+      if (cellEl.textContent) cellEl.style.pointerEvents = 'none';
     }
   };
 
   const clearGameboard = () => {
     Gameboard.resetBoard();
+    [...gameboardEl.children].forEach(
+      (cellEl) => (cellEl.style.pointerEvents = 'all')
+    );
     renderGameboard();
-  };
-
-  const disableGameboard = () => {
-    gameboardEl.disabled = true;
-  };
-
-  const endGame = () => {
-    gameboardEl.disabled = true;
   };
 
   return { renderGameboard, addEventListeners, createGameboard };
